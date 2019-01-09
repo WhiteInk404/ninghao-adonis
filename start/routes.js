@@ -18,7 +18,7 @@ const Route = use('Route')
 
 Route.on('/').render('welcome')
 
-Route.get('/posts', () => 'List of Posts.')
+Route.get('/posts', 'PostController.index')
 
 Route.post('/posts', () => 'Post request has been set.')
 
