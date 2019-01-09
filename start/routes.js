@@ -21,3 +21,7 @@ Route.on('/').render('welcome')
 Route.get('/posts', () => 'List of Posts.')
 
 Route.post('/posts', () => 'Post request has been set.')
+
+Route.get('/posts/:id', ({ params }) => {
+  return `You're watching post ${ params.id }.`
+})
