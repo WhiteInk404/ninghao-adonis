@@ -18,18 +18,57 @@ const Route = use('Route')
 
 Route.on('/').render('welcome')
 
-Route.get('/posts', 'PostController.index')
+Route
+    .resource('posts','PostController')
+    // .apiOnly()
+    // .only(['index','show'])
+    .except(['destory','store','edit'])
 
-Route.post('/posts', () => 'Post request has been set.')
+// Route.get('/posts', 'PostController.index')
+//
+// Route.get('/posts/create', 'PostController.create')
+//
+// Route.get('/posts/:id','PostController.show')
+//
+// Route.get('/posts/:id/edit', 'PostController.edit')
+//
+// Route.post('/posts', 'PostController.store')
+//
+// Route.patch('/posts/:id','PostController.update')
+//
+// Route.delete('/posts/:id','PostController.destory')
 
-Route.get('/posts/:id', ({ params }) => {
-  return `You're watching post ${ params.id }.`
-})
+Route
+    .get('/list-all-users',() => {
+      return `List of users.`
+    })
+    .as('users.index')
 
-Route.patch('/posts/:id',({ params }) => {
-  return `Post ${ params.id } has been updated.`
-})
+Route
+    .get('/users', ({ request }) => {
+      switch (request.format()) {
+        case 'json':
+          return [
+            { name: 'Johnny'},
+            { nickname: 'SherDavincl' }
+          ]
 
-Route.delete('/posts/:id',({ params }) => {
-  return `Post ${ params.id } has been removed.`
-})
+        default:
+          return `
+            - name: Johnny
+            - nickname: SherDavincl
+          `
+      }
+    })
+    .formats(['json', 'html'], true)
+
+Route
+    .group(() => {
+      Route.get('users',() => {
+        return `Manage users.`
+      })
+      Route.get('posts',() => `Manage posts.`)
+    })
+    .prefix('admin')
+
+Route.any('*', ({ view }) => view.render('welcome'))
