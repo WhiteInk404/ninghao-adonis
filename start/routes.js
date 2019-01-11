@@ -40,9 +40,25 @@ Route.on('/').render('welcome')
 //   return `<h1>List of posts.</h1>`
 // })
 
-Route.get('/posts', ({ request, response }) => {
-  // response.header('Content-type','text/plain')
-  response.cookie('theme','dark')
-  response.clearCookie('theme')
-  return request.cookie('theme','light')
+// Route.get('/posts', ({ request, response }) => {
+//   // response.header('Content-type','text/plain')
+//   response.cookie('theme','dark')
+//   response.clearCookie('theme')
+//   return request.cookie('theme','light')
+// })
+
+const delay = ( data, time ) => {
+  return new Promise (( resolve, reject ) => {
+    setTimeout(() => {
+      resolve(data)
+    }, time )
+  })
+}
+
+Route.get('/posts', async ({ response }) => {
+  const data = await delay(
+    'List of posts.',
+    3000
+  )
+  return data
 })
