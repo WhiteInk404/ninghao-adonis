@@ -34,8 +34,15 @@ Route.on('/').render('welcome')
 
 // Route.get('/posts', ({ request }) => request.header('user-agent'))
 
-Route.get('/posts', ({ response }) => {
+// Route.get('/posts', ({ response }) => {
+//   // response.header('Content-type','text/plain')
+//   response.type('text/plain')
+//   return `<h1>List of posts.</h1>`
+// })
+
+Route.get('/posts', ({ request, response }) => {
   // response.header('Content-type','text/plain')
-  response.type('text/plain')
-  return `<h1>List of posts.</h1>`
+  response.cookie('theme','dark')
+  response.clearCookie('theme')
+  return request.cookie('theme','light')
 })
